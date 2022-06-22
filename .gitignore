@@ -1,0 +1,6 @@
+/.idea/
+*keys.json
+/ree-bot-translate.iml
+package-lock.json
+/node_modules
+/dist
