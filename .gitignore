@@ -1,6 +1,6 @@
 /.idea/
 *keys.json
-/ree-bot-translate.iml
+/translate_reebot.iml
 package-lock.json
 /node_modules
 /dist

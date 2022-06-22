@@ -1,10 +1,10 @@
-import TelegramBot from "node-telegram-bot-api";
-import { Options } from "request";
+import TelegramBot, { InlineQuery } from 'node-telegram-bot-api';
+import { Options } from 'request';
 
-const translate = require('./translate-adapter').translate
+const translate = require('./translate-adapter').translate;
 const keys = require('../keys.json');
 
-let request_options: Options = { url: "" };
+let request_options: Options = {url: ''};
 
 let options: TelegramBot.ConstructorOptions = {
     polling: true,
@@ -12,22 +12,19 @@ let options: TelegramBot.ConstructorOptions = {
 };
 const bot = new TelegramBot(keys.TRANSLATE_REEBOT, options);
 
-bot.on("inline_query", async msg => {
-    console.log(JSON.stringify(msg));
-    let results: Array<TelegramBot.InlineQueryResult> = [];
-    if (msg.query.length <= 1) return;
+bot.on('inline_query', async (msg: InlineQuery) => {
     if (msg.query.length > 1) {
-        let translated  = await translate(msg.query, 'de');
-        results = [
+        const translated = (await translate(msg.query, 'de')).text;
+        const results: Array<TelegramBot.InlineQueryResult> = [
             {
                 type: 'article',
                 id: 'hello_id',
-                title: translated.text,
+                title: translated,
                 input_message_content: {
-                    message_text: translated.text
+                    message_text: translated
                 }
             }
         ];
+        await bot.answerInlineQuery(msg.id, results);
     }
-    bot.answerInlineQuery(msg.id, results);
 });
