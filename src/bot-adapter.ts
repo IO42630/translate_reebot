@@ -4,9 +4,8 @@ import { Options } from 'request';
 const translate = require('./translate-adapter').translate;
 const keys = require('../keys.json');
 
-let request_options: Options = {url: ''};
-
-let options: TelegramBot.ConstructorOptions = {
+const request_options: Options = {url: ''};
+const options: TelegramBot.ConstructorOptions = {
     polling: true,
     request: request_options
 };
