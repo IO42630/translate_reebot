@@ -17,6 +17,7 @@
   * can also type `@translate_reebot hello,,ru` or `@translate_reebot hello,,en`
     * this will translate to `ru` or `en`
   * for next use should be able to type `@tr` and `TAB`
+  * if it stops working, write me at ivan ; olexyn ; com.
 
 ### Как использовать
 * **установка**
@@ -31,6 +32,7 @@
     * можно также ввести `@translate_reebot hello,,ru` или `@translate_reebot hello,,en`
         * это переведет на `ru` или `en`.
     * для следующего использования должна быть возможность набирать `@tr` и `TAB`
+    * если он перестанет работать, напишите мне по адресу ivan ; olexyn ; com.
 
 ### How To Run
 * enter API-keys into `keys-template.json`, then rename to `keys.json`.
