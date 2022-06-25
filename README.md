@@ -6,7 +6,7 @@
 
 ### How To Use
 * **setup**
-  * go to `@translate_reebot`
+  * go to the Telegram user `@translate_reebot`
   * type `/start`
 * **usage**
   * go to any chat
@@ -21,7 +21,7 @@
 
 ### Как использовать
 * **установка**
-    * зайдите на `@translate_reebot`
+    * перейти к пользователю Telegram `@translate_reebot`
     * введите `/start`
 * **использование**
     * зайдите в любой чат
