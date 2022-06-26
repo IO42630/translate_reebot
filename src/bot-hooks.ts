@@ -32,7 +32,7 @@ bot.on('inline_query', async (query: InlineQuery) => {
     } else {
         return;
     }
-    const translated = (await translate(transText, lang)).text;
+    const translated = await translate(transText, lang);
     const results: Array<TelegramBot.InlineQueryResult> = [
         {
             type: 'article',

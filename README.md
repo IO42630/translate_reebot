@@ -37,6 +37,7 @@
 ### How To Run
 * enter API-keys into `keys-template.json`, then rename to `keys.json`.
 * see `Dockerfile`
+* also, suggested to use separate bot for testing.
 
 
 ### Special Thanks
