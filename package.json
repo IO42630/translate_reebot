@@ -1,6 +1,6 @@
 {
   "name": "translate-reboot",
-  "version": "1.0.0",
+  "version": "0.4",
   "description": "",
   "scripts": {
     "build": "tsc",
