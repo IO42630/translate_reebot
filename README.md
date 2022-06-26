@@ -1,45 +1,35 @@
 # Translate ReeBot
 
 ### About
-* Uses DeepL for Telegram inline translations to `de`, `en` and `ru` (there is no `ua` in DeepL).
-
+* Telegram inline translations via DeepL and Google.
+* Supports `de`, `en` , `ua`, `es`, `fr`, `it`.
+* Max ~256 characters per query.
 
 ### How To Use
-* **setup**
-  * go to the Telegram user `@translate_reebot`
-  * type `/start`
-* **usage**
-  * go to any chat
-  * type `@translate_reebot hello,,`
-    * replace `hello` with text of your choice.
+* **Setup**
+  * Go to the Telegram user `@translate_reebot`.
+  * Type `/start`.
+* **Usage**
+  * Go to any chat.
+  * Type `@translate_reebot hello,,`.
+    * Replace `hello` with text of your choice.
     * (`,,` is the "send query" command)
-    * this will translate to `de`
-  * can also type `@translate_reebot hello,,ru` or `@translate_reebot hello,,en`
-    * this will translate to `ru` or `en`
-  * for next use should be able to type `@tr` and `TAB`
-  * if it stops working, write me at ivan ; olexyn ; com.
+    * This will translate to `de`.
+  * Can also type `@translate_reebot hello,,ua`.
+    * This will translate to the specified language.
+* **Troubleshooting**
+  * It is somewhat experimental - if it stops working, please notify me.
 
-### Как использовать
-* **установка**
-    * перейти к пользователю Telegram `@translate_reebot`
-    * введите `/start`
-* **использование**
-    * зайдите в любой чат
-    * введите `@translate_reebot hello,,`
-        * замените `hello` на текст по вашему выбору.
-        * (`,,` - это команда "отправить запрос")
-        * это будет переведено как `de`
-    * можно также ввести `@translate_reebot hello,,ru` или `@translate_reebot hello,,en`
-        * это переведет на `ru` или `en`.
-    * для следующего использования должна быть возможность набирать `@tr` и `TAB`
-    * если он перестанет работать, напишите мне по адресу ivan ; olexyn ; com.
+<br>
+<hr>
+<br>
 
-### How To Run
-* enter API-keys into `keys-template.json`, then rename to `keys.json`.
-* see `Dockerfile`
-* also, suggested to use separate bot for testing.
-
+### Coffee
+* Translating is comparably cheap (256 chars ~ CHF 0.005).
+* If you still want to support the app, or suggest new features: https://ko-fi.com/io42630
 
 ### Special Thanks
 * https://github.com/baitun/node-telegram-translate-bot
 * https://github.com/yagop/node-telegram-bot-api
+
+
