@@ -11,7 +11,7 @@ const options: TelegramBot.ConstructorOptions = {
     polling: true,
     request: request_options
 };
-const bot = new TelegramBot(keys.TEST_TRANSLATE_REEBOT, options);
+const bot = new TelegramBot(keys.TRANSLATE_REEBOT, options);
 const eol = ',,';
 
 bot.on('inline_query', async (query: InlineQuery) => {
