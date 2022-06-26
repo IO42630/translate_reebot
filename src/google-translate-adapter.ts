@@ -11,5 +11,5 @@ export async function translate(text: string, targetLang: string): Promise<strin
 
 export async function detect(text: string): Promise<string> {
     return translator.detect(text)
-        .then(([result] : any) => result.language);
+        .then(([result] : any) => result.language === 'und' ? 'en' : result.language);
 }
