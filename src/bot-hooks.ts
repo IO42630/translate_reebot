@@ -11,7 +11,7 @@ const options: TelegramBot.ConstructorOptions = {
     polling: true,
     request: request_options
 };
-const bot = new TelegramBot(keys.TRANSLATE_REEBOT, options);
+const bot = new TelegramBot(keys.TEST_TRANSLATE_REEBOT, options);
 const eol = ',,';
 
 bot.on('inline_query', async (query: InlineQuery) => {
@@ -24,31 +24,33 @@ bot.on('inline_query', async (query: InlineQuery) => {
         queryText.endsWith(eol + 'ua') ||
         queryText.endsWith(eol + 'uk') ||
         queryText.endsWith(eol + 'ru');
-
     let lang: string;
-    let transText: string;
+    let text: string;
     if (basicQuery) {
         lang = 'de';
-        transText = queryText.slice(0, length - 2);
+        text = queryText.slice(0, length - 2);
     } else if (customQuery) {
         lang = queryText.slice(length - 2, length);
         lang = lang === 'en' ? 'en-US' : lang;
-        transText = queryText.slice(0, length - 4);
+        lang = lang === 'ua' || lang === 'ru' ? 'uk' : lang;
+        text = queryText.slice(0, length - 4);
     } else {
         return;
     }
-    let translated = '';
-    const srcLang = detectGoogle(transText);
-    if(srcLang === 'ua' || lang === 'ua') {
-        translated = await translateGoogle(transText, lang);
+    let translated: string;
+    detectGoogle(text).then((reslt: string) => console.log(reslt));
+    const srcLang: string = 'en';
+
+    if (srcLang === 'uk' || lang === 'uk') {
+        translated = await translateGoogle(text, lang);
     } else {
-        translated = await translateDeepL(transText, lang);
+        translated = await translateDeepL(text, lang);
     }
 
     const results: Array<TelegramBot.InlineQueryResult> = [
         {
             type: 'article',
-            id: 'hello',
+            id: 'helloxx',
             title: translated,
             input_message_content: {
                 message_text: translated

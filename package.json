@@ -4,8 +4,7 @@
   "description": "",
   "scripts": {
     "build": "tsc",
-    "start": "npm run serve",
-    "serve": "node dist/bot-adapter.js"
+    "start": "node dist/bot-hooks.js"
   },
   "dependencies": {
     "@google-cloud/translate": "^6.3.1",
