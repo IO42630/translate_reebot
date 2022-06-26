@@ -1,7 +1,9 @@
 import TelegramBot, { InlineQuery } from 'node-telegram-bot-api';
 import { Options } from 'request';
 
-const translate = require('./translate-adapter').translate;
+const translateDeepL = require('./deepl-translate-adapter').translate;
+const translateGoogle = require('./google-translate-adapter').translate;
+const detectGoogle = require('./google-translate-adapter').detect;
 const keys = require('../keys.json');
 
 const request_options: Options = {url: ''};
@@ -19,7 +21,10 @@ bot.on('inline_query', async (query: InlineQuery) => {
     const customQuery =
         queryText.endsWith(eol + 'de') ||
         queryText.endsWith(eol + 'en') ||
+        queryText.endsWith(eol + 'ua') ||
+        queryText.endsWith(eol + 'uk') ||
         queryText.endsWith(eol + 'ru');
+
     let lang: string;
     let transText: string;
     if (basicQuery) {
@@ -32,7 +37,14 @@ bot.on('inline_query', async (query: InlineQuery) => {
     } else {
         return;
     }
-    const translated = await translate(transText, lang);
+    let translated = '';
+    const srcLang = detectGoogle(transText);
+    if(srcLang === 'ua' || lang === 'ua') {
+        translated = await translateGoogle(transText, lang);
+    } else {
+        translated = await translateDeepL(transText, lang);
+    }
+
     const results: Array<TelegramBot.InlineQueryResult> = [
         {
             type: 'article',
