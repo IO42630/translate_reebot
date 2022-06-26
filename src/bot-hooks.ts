@@ -23,6 +23,9 @@ bot.on('inline_query', async (query: InlineQuery) => {
         queryText.endsWith(eol + 'en') ||
         queryText.endsWith(eol + 'ua') ||
         queryText.endsWith(eol + 'uk') ||
+        queryText.endsWith(eol + 'es') ||
+        queryText.endsWith(eol + 'fr') ||
+        queryText.endsWith(eol + 'it') ||
         queryText.endsWith(eol + 'ru');
     let lang: string;
     let text: string;
@@ -31,20 +34,17 @@ bot.on('inline_query', async (query: InlineQuery) => {
         text = queryText.slice(0, length - 2);
     } else if (customQuery) {
         lang = queryText.slice(length - 2, length);
-        lang = lang === 'en' ? 'en-US' : lang;
         lang = lang === 'ua' || lang === 'ru' ? 'uk' : lang;
         text = queryText.slice(0, length - 4);
     } else {
         return;
     }
     let translated: string;
-    detectGoogle(text).then((reslt: string) => console.log(reslt));
-    const srcLang: string = 'en';
-
+    const srcLang: string = await detectGoogle(text);
     if (srcLang === 'uk' || lang === 'uk') {
         translated = await translateGoogle(text, lang);
     } else {
-        translated = await translateDeepL(text, lang);
+        translated = await translateDeepL(text, srcLang, lang);
     }
 
     const results: Array<TelegramBot.InlineQueryResult> = [

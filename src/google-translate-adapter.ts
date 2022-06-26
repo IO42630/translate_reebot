@@ -4,8 +4,8 @@ const projectId = 'translate-reebot';
 const translator = new Translate({projectId});
 translator.key = require('../keys.json').GOOGLE;
 
-export async function translate(text: string, lang: string): Promise<string> {
-    return translator.translate(text, lang)
+export async function translate(text: string, targetLang: string): Promise<string> {
+    return translator.translate(text, targetLang)
         .then(([result] : any) => result);
 }
 
