@@ -24,10 +24,6 @@
 <hr>
 <br>
 
-### Кава
-* Переклад порівняно дешевий (256 символів ~ CHF 0,005).
-* Якщо ви все ще хочете підтримувати програму або запропонувати нові функції: https://ko-fi.com/io42630
-
 ### Особлива подяка
 * https://github.com/baitun/node-telegram-translate-bot
 * https://github.com/yagop/node-telegram-bot-api

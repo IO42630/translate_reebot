@@ -24,10 +24,6 @@
 <hr>
 <br>
 
-### Coffee
-* Translating is comparably cheap (256 chars ~ CHF 0.005).
-* If you still want to support the app, or suggest new features: https://ko-fi.com/io42630
-
 ### Special Thanks
 * https://github.com/baitun/node-telegram-translate-bot
 * https://github.com/yagop/node-telegram-bot-api
