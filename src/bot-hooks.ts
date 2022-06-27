@@ -5,6 +5,7 @@ const translateDeepL = require('./deepl-translate-adapter').translate;
 const translateGoogle = require('./google-translate-adapter').translate;
 const detectGoogle = require('./google-translate-adapter').detect;
 const makeResult = require('./results').makeResult;
+const makeError = require('./results').makeError;
 const keys = require('../keys.json');
 
 const request_options: Options = {url: ''};
@@ -56,33 +57,45 @@ function makeResults(translated: string): Array<InlineQueryResultArticle> {
     return results;
 }
 
+function makeErrors(): Array<InlineQueryResultArticle> {
+    const results: Array<InlineQueryResultArticle> = [];
+    results.push(makeError());
+    return results;
+}
+
 bot.on('inline_query', async (query: InlineQuery) => {
-    const queryText = query.query;
-    const length = queryText.length;
-    if (length < 3) { return; }
-    const basicQuery = queryText.endsWith(eol);
-    const customQuery = !basicQuery && (
-        queryText.endsWith(eol + 'de') ||
-        queryText.endsWith(eol + 'en') ||
-        queryText.endsWith(eol + 'ua') ||
-        queryText.endsWith(eol + 'uk') ||
-        queryText.endsWith(eol + 'es') ||
-        queryText.endsWith(eol + 'fr') ||
-        queryText.endsWith(eol + 'it') ||
-        queryText.endsWith(eol + 'ru')
-    );
-    let dstLang: string;
-    let text: string;
-    if (basicQuery) {
-        dstLang = 'de';
-        text = queryText.slice(0, length - 2);
-    } else if (customQuery) {
-        dstLang = queryText.slice(length - 2, length);
-        text = queryText.slice(0, length - 4);
-    } else {
-        return;
+    let results: Array<InlineQueryResultArticle>;
+    try {
+        const queryText = query.query;
+        const length = queryText.length;
+        if (length < 3) { return; }
+        const basicQuery = queryText.endsWith(eol);
+        const customQuery = !basicQuery && (
+            queryText.endsWith(eol + 'de') ||
+            queryText.endsWith(eol + 'en') ||
+            queryText.endsWith(eol + 'ua') ||
+            queryText.endsWith(eol + 'uk') ||
+            queryText.endsWith(eol + 'es') ||
+            queryText.endsWith(eol + 'fr') ||
+            queryText.endsWith(eol + 'it') ||
+            queryText.endsWith(eol + 'ru')
+        );
+        let dstLang: string;
+        let text: string;
+        if (basicQuery) {
+            dstLang = 'de';
+            text = queryText.slice(0, length - 2);
+        } else if (customQuery) {
+            dstLang = queryText.slice(length - 2, length);
+            text = queryText.slice(0, length - 4);
+        } else {
+            return;
+        }
+        const translated = await translate(text, dstLang);
+        results = makeResults(translated);
+    } catch (e) {
+        console.log(e);
+        results = makeErrors();
     }
-    const translated = await translate(text, dstLang);
-    const results = makeResults(translated);
     await bot.answerInlineQuery(query.id, results, {cache_time: 0, is_personal: true});
 });
