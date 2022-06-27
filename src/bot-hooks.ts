@@ -32,6 +32,30 @@ function makeLines(text: string): string[] {
     return lines;
 }
 
+async function translate(text: string, dstLang: string): Promise<string> {
+    const srcLang: string = await detectGoogle(text);
+    dstLang = dstLang === 'ua' || dstLang === 'ru' ? 'uk' : dstLang;
+    if (srcLang === 'uk' || dstLang === 'uk') {
+        return translateGoogle(text, dstLang);
+    } else {
+        return await translateDeepL(text, srcLang, dstLang);
+    }
+}
+
+function makeResults(translated: string): Array<InlineQueryResultArticle> {
+    const results: Array<InlineQueryResultArticle> = [];
+    if (translated.length === 0) {
+        return;
+    } else if (translated.length < max) {
+        results.push(makeResult(translated, translated));
+    } else {
+        makeLines(translated).forEach((line: string) => {
+            results.push(makeResult(line, translated));
+        });
+    }
+    return results;
+}
+
 bot.on('inline_query', async (query: InlineQuery) => {
     const queryText = query.query;
     const length = queryText.length;
@@ -47,32 +71,18 @@ bot.on('inline_query', async (query: InlineQuery) => {
         queryText.endsWith(eol + 'it') ||
         queryText.endsWith(eol + 'ru')
     );
-    let lang: string;
+    let dstLang: string;
     let text: string;
     if (basicQuery) {
-        lang = 'de';
+        dstLang = 'de';
         text = queryText.slice(0, length - 2);
     } else if (customQuery) {
-        lang = queryText.slice(length - 2, length);
-        lang = lang === 'ua' || lang === 'ru' ? 'uk' : lang;
+        dstLang = queryText.slice(length - 2, length);
         text = queryText.slice(0, length - 4);
     } else {
         return;
     }
-    let translated: string;
-    const srcLang: string = await detectGoogle(text);
-    if (srcLang === 'uk' || lang === 'uk') {
-        translated = await translateGoogle(text, lang);
-    } else {
-        translated = await translateDeepL(text, srcLang, lang);
-    }
-    const results: Array<InlineQueryResultArticle> = [];
-    if (translated.length < max) {
-        results.push(makeResult(translated, translated));
-    } else {
-        makeLines(translated).forEach((line: string) => {
-            results.push(makeResult(line, translated));
-        });
-    }
+    const translated = await translate(text, dstLang);
+    const results = makeResults(translated);
     await bot.answerInlineQuery(query.id, results, {cache_time: 0, is_personal: true});
 });
